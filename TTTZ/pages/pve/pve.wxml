@@ -16,6 +16,7 @@
     </view>
     <scroll-view class="my_scroll" scroll-x>
         <view wx:for="{{players}}" class="scroll_item" wx:for-index="idx" wx:for-item="scroll_item">
+            <image class="avatar" src="{{avatarUrl[idx]}}" bind:tap="onTap"></image>
           <view style="margin: 4px;font-size:large;">{{players_name[idx]}}</view>
           <view style="margin: 4rpx;font-size: 35rpx;">点数:{{dices[idx].points}}</view>
           <view style="margin: 4rpx;font-size: 35rpx;">选定:{{lockdices[idx]}}</view>
@@ -54,4 +55,5 @@
         <text>筹码：{{winner.money}}</text>
       </view>
     </view>
+    <view id="cheat" wx:if="{{words}}">{{words}}</view>
 </view>

@@ -1,24 +1,32 @@
 // pages/pvp_setting/pvp_setting.js
 
 var app=getApp();
-
+const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+      avatarUrl:defaultAvatarUrl,
       players:2,
       money:1000,
       rounds:3
+  },
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail 
+    this.setData({
+      avatarUrl,
+    })
   },
 
   onClick:function(){
     app.globalData.local_player_num = this.data.players
     app.globalData.local_player_money = this.data.money
     app.globalData.local_game_rounds = this.data.rounds
+    app.globalData.local_avatarUrl = this.data.avatarUrl
     wx.redirectTo({
-      url: '/pages/pvp/pvp',
+      url: '/pages/pve/pve',
     })
 },
 

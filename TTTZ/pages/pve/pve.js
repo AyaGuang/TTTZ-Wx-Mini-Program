@@ -9,6 +9,7 @@ Page({
 
   data: {
     //本地对战变量
+    avatarUrl:[],
     players:[],//存储玩家信息
     dices:[],//存储骰子信息
     lockdices:[],//存储锁定的骰子
@@ -31,7 +32,8 @@ Page({
     muls_array:['+1','+2','+3'],
     //人机对战变量
     players_name:['玩家','人机'],
-    canAIthrow:false
+    canAIthrow:false,
+    words:""
   },
 
   /**
@@ -54,8 +56,15 @@ Page({
     var players=[];
     var dices=[];
     var lockdices=[];
+    let underChoose = ['vsha.jpg','ikun.jpg','bossKe.jpg','zzb.bmp']
+    let url = 'https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/avatar/' + underChoose[app.globalData.local_player_num-1]
+    let avatarUrl = [app.globalData.local_avatarUrl,url];
+    let name = ['Devil Angel','AI哟','Boss Ke','心灵机汤']
+    let cur_name = ['玩家',name[app.globalData.local_player_num-1]]
     this.setData({//将全局数据保存的玩家人数和游戏局数先赋值给data
-      total_rounds:app.globalData.local_game_rounds
+      total_rounds:app.globalData.local_game_rounds,
+      avatarUrl:avatarUrl,
+      players_name:cur_name
     });
     for(var i=0;i<this.data.player_num;i++){
       players.push({id:this.data.players_name[i],unique:"",money:app.globalData.local_player_money,score:0,type:'',canthrow:true})
@@ -71,7 +80,46 @@ Page({
       lockdices:lockdices
     });
   },
+  onTap: function () {
+      let string = ""
+      let num = app.globalData.local_player_num
+      if(num == 1)
+      {
+          let dir = ["文心一言","chatGPT","星火大模型"]
+          let random = Math.floor(Math.random() * 3)
+          string = "不会就去问" + dir[random] + "，这个对你们来说很难吗？"
+      }
+      else if(num == 2) string = "你干嘛啊，ai呦"
+      else if(num == 3)
+      {
+        wx.request({
+            url: 'https://api.likepoems.com/ana/dujitang/',
+            success(res){
+                string = res.data
+            }
+        })
+      }
+      else if(num == 4)
+      {
+          wx.request({
+            url: 'https://api.likepoems.com/ana/yiyan/',
+            success(res){
+                string = res.data
+            }
+        })
+    }
+    setTimeout(()=>{
+        this.setData({
+            words:string
+        })
+      },100)
+      setTimeout(()=>{
+        this.setData({
+            words:""
+        })
+      },1500)
 
+  },
   //改变每个骰子的点数
   change_dice_i: function(i){
     var dices=this.data.dices;

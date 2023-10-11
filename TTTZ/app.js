@@ -23,6 +23,7 @@ App({
   //定义全局数据，传递游戏人数，筹码等参数
   globalData: {
     userInfo: {name:"test",avatarUrl:'/static/images/pvp_game/peo_icon.png'},
+    local_avatarUrl:'/static/images/pvp_game/peo_icon.png',
     local_player_num:2,
     local_player_money:1000,
     local_game_rounds:3,
