@@ -5,7 +5,7 @@ App({
   onLaunch() {
     wx.goEasy = GoEasy.getInstance({
         host:'hangzhou.goeasy.io', 
-        appkey: 'BC-a9b2148084374a5ca2a9500563a67304',//替换为您的应用appkey
+        appkey: 'BC-b13217de4a6341beaf93801ef2e026e5',//替换为您的应用appkey
         modules: ['pubsub']
       });
     // 展示本地存储能力
