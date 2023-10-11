@@ -45,11 +45,12 @@
     <image src="/static/images/pvp_game/table.png" id="table"></image>
     <image src="/static/images/pvp_game/player2.png" id="player2" bindtap="playRabbit" animation="{{rabbitanimtion}}"></image>
     <image src="/static/images/pve_game/robbot.png" id="player1" bindtap="enermyAnimationPlay" animation="{{enermyanimtion}}"></image>
+    <image src="/static/images/tuoguan.png" class="tuoguan" bindtap=""></image>
     <view wx:if="{{isGameOver}}">
       <view class="win_box">
         <text>游戏结束</text>
         <text>胜者：{{winner.id}}</text>
-        <text>积分：{{winner.score}}</text>
+        <text>得分：{{winner.score}}</text>
         <text>筹码：{{winner.money}}</text>
       </view>
     </view>

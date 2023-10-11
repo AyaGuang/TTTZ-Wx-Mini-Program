@@ -19,15 +19,17 @@ Page({
     point_type:'无牌型',//当前牌型
     point_sum:0,//总积分=点数和+牌型奖励分
     total_mul:1,//总倍数
-    is_mul:false,
-    can_mul:true,
+    is_mul:false,//是否加倍
+    can_mul:true,//能否加倍
     isGameOver:false,//游戏是否结束
     animationRunning:false,//是否播放动画
     winner:{id:"",unique:"",money:0,score:0,type:'',canthrow:true},//存储胜者信息
     animationData: {},//存储动画
     rabbitanimtion:{},//捏兔子动画
     enermyanimtion:{},//对手动画
-    muls_array:['+1','+2','+3']
+    muls_array:['+1','+2','+3'],//存储界面显示的加倍字符串
+    //托管机器人变量
+    canAIthrow:false,//机器人能否投掷
   },
 
   /**
@@ -35,7 +37,7 @@ Page({
    */
   onLoad: function (options) {
     this.initGame();
-    console.log(this.data.player_num,this.data.total_rounds);
+    console.log(this.data.player_num,app.globalData.local_player_money,this.data.total_rounds);
   },
 
   //定义骰子类，用于保存总积分和牌型
@@ -50,12 +52,14 @@ Page({
     var players=[];
     var dices=[];
     var lockdices=[];
+    var is_tuoguan_array=[];
     this.setData({//将全局数据保存的玩家人数和游戏局数先赋值给data
       player_num:app.globalData.local_player_num,
       total_rounds:app.globalData.local_game_rounds
     });
     for(var i=0;i<this.data.player_num;i++){
-      players.push({id:"",unique:"",money:app.globalData.local_player_money,score:0,type:'',canthrow:true})
+      let player_id='玩家'+(i+1).toString();
+      players.push({id:player_id,unique:"",money:app.globalData.local_player_money,score:0,type:'',canthrow:true,is_AI:false});
       dices.push({paths:["/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png"],
       timers:[null,null,null,null,null],
       locks:[false,false,false,false,false],
@@ -65,7 +69,8 @@ Page({
     this.setData({
       players:players,
       dices:dices,
-      lockdices:lockdices
+      lockdices:lockdices,
+      is_tuoguan_array:is_tuoguan_array
     });
     this.playRabbit();
   },
@@ -146,7 +151,7 @@ Page({
 
   //切换骰子的状态，被锁或没被锁，用于绑定在每个骰子图片上，点击一次就可以切换一次状态
   changeState:function(event){
-    if(!this.data.players[this.data.current_player].canthrow){
+    if(!this.data.players[this.data.current_player].canthrow&&!this.data.players[this.data.current_player].is_AI){
       const i = event.currentTarget.dataset.params;//获取这是第几个骰子的数据
       var dices=this.data.dices;
       var lockdices=this.data.lockdices;
@@ -271,7 +276,8 @@ Page({
   clickButton:function(){
     if(this.data.players[this.data.current_player].canthrow
       &&!this.isAllLock(this.data.dices[this.data.current_player].locks)
-      &&!this.data.isGameOver){//只有骰子能被投掷过才能开始投掷
+      &&!this.data.isGameOver
+      &&!this.data.players[this.data.current_player].is_AI){//只有骰子能被投掷过才能开始投掷
       this.startShake();
       this.playAnimation();
       var players=this.data.players;
@@ -287,7 +293,8 @@ Page({
   commit: function() {
     if((!this.data.players[this.data.current_player].canthrow
       ||this.isAllLock(this.data.dices[this.data.current_player].locks))
-      &&!this.data.isGameOver){
+      &&!this.data.isGameOver
+      &&!this.data.players[this.data.current_player].is_AI){
       var point_type = '';
       var point_sum = 0;
       var turns = this.data.turns;
@@ -332,11 +339,18 @@ Page({
         current_round:currrent_round,current_player: current_player
       });
       this.changePlayer();
+      if(this.data.players[this.data.current_player].is_AI){
+        setTimeout(()=>{
+        this.setData({
+          canAIthrow:true
+        });
+        this.AIController();},1000)//1s后开始转为人机控制
+      }
     }
   },
 
   addMul:function(){
-    if(this.data.can_mul&&!this.data.isGameOver){
+    if(this.data.can_mul&&!this.data.isGameOver&&!this.data.players[this.data.current_player].is_AI){
       this.setData({
         is_mul:!this.data.is_mul
       });
@@ -350,6 +364,29 @@ Page({
       total_mul: this.data.total_mul + (parseInt(index) + 1),
       can_mul:false
     });
+  },
+
+  set_AI:function(){
+    var players=this.data.players;
+    //将托管状态设置为相反状态
+    players[this.data.current_player].is_AI=!players[this.data.current_player].is_AI;
+    //修改玩家名字（加上托管两个字）
+    if(players[this.data.current_player].is_AI){
+      players[this.data.current_player].id='玩家'+(this.data.current_player+1).toString()+'(托管)';
+    }
+    else{
+      players[this.data.current_player].id='玩家'+(this.data.current_player+1).toString();
+    }
+    this.setData({
+      players:players,
+    }); 
+    if(this.data.players[this.data.current_player].is_AI){
+      setTimeout(()=>{
+      this.setData({
+        canAIthrow:true
+      });
+      this.AIController();},1000)//1s后开始转为人机控制
+    }
   },
 
   //计算所有骰子点数和
@@ -480,6 +517,178 @@ Page({
     this.setData({
       winner:players[max_money_index]
     });
+  },
+
+  AIcommit:function(){
+    var point_type = '';
+    var point_sum = 0;
+    var turns = this.data.turns;
+    var currrent_round=this.data.current_round;
+    var current_player = this.data.current_player + 1;
+    var players = this.data.players; // 创建 players 的副本进行操作
+    var dices=this.data.dices;//创建dices副本
+    var lockdices=this.data.lockdices;
+    var total_mul=this.data.total_mul;
+    if (current_player == this.data.player_num) {//如果下标超过人数，说明可以进行下一轮
+      current_player = current_player % this.data.player_num;
+      turns++;
+      for (let j = 0; j < this.data.player_num; j++) {//把是否可以投掷状态恢复
+        players[j].canthrow = true;
+      }
+    }
+    if(turns>3){//按完后如果轮数大于3，则说明当局结束，进入下一轮
+      turns=1;
+      currrent_round++;
+      this.checkout();
+      for(let j=0;j<this.data.player_num;j++){//进入新一轮，重置玩家和骰子信息
+        dices[j]={paths:["/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png"],
+        timers:[null,null,null,null,null],locks:[false,false,false,false,false],points:[0,0,0,0,0]};
+        players[j].type='';players[j].score=0;total_mul=1;
+        lockdices[j]=[];
+      }
+    }
+    if(currrent_round>this.data.total_rounds){//如果当前局数超过总局数，游戏结束
+      currrent_round=this.data.total_rounds;
+      this.setData({
+        isGameOver:true
+      });
+    }
+    //更新当前玩家信息
+    this.setData({
+      players: players,
+      dices:dices,
+      lockdices:lockdices,
+      point_type: '',point_sum: 0,
+      turns: turns,
+      total_mul:total_mul,can_mul:true,
+      current_round:currrent_round,current_player: current_player
+    });
+    if(!this.data.isGameOver) this.changePlayer();
+    if(this.data.players[this.data.current_player].is_AI){
+      setTimeout(()=>{
+      this.setData({
+        canAIthrow:true
+      });
+      this.AIController();},1000)//1s后开始转为人机控制
+    }
+  },
+
+  //计算最优锁定方法
+  calculateBestLocks:function(points,locks) {
+    let locksPossible=[];//存储所有可能的骰子锁定数组
+    let max_score=0;//存储最大的分数期望
+    let best_locks=[];//存储最优锁定方法
+    let res=[];
+    //定义一个深度优先搜索，查找每种锁定数组，然后存储到locksPossible中
+    const lockDFS=(cur_points,cur_locks,cur_index)=>{
+      let locks_copy=[...cur_locks];//复制副本，用于递归，防止原数组被篡改
+      if(cur_index==cur_points.length){
+        locksPossible.push(locks_copy);//如果遍历的下表超过数组长度，说明此次递归到尽头，则保存当前的锁定数组
+        return;
+      }
+      if(!locks_copy[cur_index]){//如果当前骰子没被锁定，则骰子被锁定和没被锁定的情况都要遍历一次
+        locks_copy[cur_index]=false;
+        lockDFS(cur_points,locks_copy,cur_index+1);
+        locks_copy[cur_index]=true;
+        lockDFS(cur_points,locks_copy,cur_index+1);
+      }
+      else{//被锁定则没有别的选择，直接看下一个骰子
+        lockDFS(cur_points,locks_copy,cur_index+1);
+      }
+    }
+    lockDFS(points,locks,0);//执行递归函数，获得所有可能的锁定数组
+    //遍历所有可能的锁定数组，计算每种锁定情况对应的分数期望
+    for(let i=0;i<locksPossible.length;i++){
+      let total_score=0;//存储当前锁定方法下每种投掷结果获得分数的综合
+      let count=0;//存储当前锁定方法下共有每种投掷结果
+      //上面二者相除及为获得分数的平均值或期望
+      //遍历接下来投掷可能出现的所有点数结果
+      const pointsDFS=(cur_points,cur_locks,cur_index)=>{//定义深度优先搜索函数
+        let points_copy=[...cur_points];
+        if(cur_index==points_copy.length){//当前递归下标等于数组长度，当此递归结束
+          total_score+=this.getPointType(points_copy).sum;//直接调用之前定义的计算骰子分数的函数
+          count++;
+          return;
+        }
+        if(!cur_locks[cur_index]){//如果骰子没被锁定，则下次投掷可能出现1-6的点数，每种都要递归一次
+          for(let j=1;j<=6;j++){
+            points_copy[cur_index]=j;
+            pointsDFS(points_copy,cur_locks,cur_index+1);
+          }
+        }
+        else{
+          pointsDFS(points_copy,cur_locks,cur_index+1);
+        }
+      }
+      pointsDFS(points,locksPossible[i],0);//根据当前锁定数组计算期望
+      if(count>0&&total_score/count>max_score){
+        max_score=total_score/count;
+        best_locks=locksPossible[i];
+      }
+    }
+    res.push(best_locks);
+    res.push(max_score);
+    return res;
+  },
+
+  //人机自动加倍
+  AIAddMul:function(){
+    var dices=this.data.dices;
+    var AI_points=dices[this.data.current_player].points;
+    var AI_locks=dices[this.data.current_player].locks;
+    var AI_score=this.calculateBestLocks(AI_points,AI_locks)[1];
+    if(30<=AI_score&&AI_score<40){
+      this.setData({
+        total_mul:this.data.total_mul+1
+      });
+    }
+    else if(40<=AI_score&&AI_score<50){
+      this.setData({
+        total_mul:this.data.total_mul+2
+      });
+    }
+    else if(50<=AI_score){
+      this.setData({
+        total_mul:this.data.total_mul+3
+      });
+    }
+  },
+
+  AIController:function(){
+    if(this.data.canAIthrow&&!this.isAllLock(this.data.dices[this.data.current_player].locks)
+      &&!this.data.isGameOver){
+      if(this.data.players[this.data.current_player].canthrow){
+        this.startShake();//直接模拟人执行投骰子函数
+        this.playAnimation();
+      }
+      var dices,points,locks,lockdices=this.data.lockdices,lockdice=[];
+      setTimeout(()=>{//因为开始投掷到得出点数需要1s的动画，所以过1s后获取骰子信息才有效
+        dices=this.data.dices;
+        points=dices[this.data.current_player].points;
+        locks=dices[this.data.current_player].locks;
+        locks=this.calculateBestLocks(points,locks)[0];
+        dices[this.data.current_player].locks=locks;
+        for(let i=0;i<5;i++){//将被锁的骰子放入锁定区中
+          if(locks[i]){
+            lockdice.push(points[i]);
+          }
+        }
+        lockdices[this.data.current_player]=lockdice;
+      },1000);
+      setTimeout(()=>{
+        this.setData({
+          dices:dices,
+          lockdices:lockdices,
+          canAIthrow:false
+        });
+        if(this.data.can_mul){
+          this.AIAddMul()
+        }
+      },1000);
+    }
+    setTimeout(()=>{
+      if(!this.data.isGameOver) this.AIcommit();
+    },2500)
   },
 
   /**

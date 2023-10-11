@@ -16,7 +16,7 @@
     </view>
     <scroll-view class="my_scroll" scroll-x>
         <view wx:for="{{players}}" class="scroll_item" wx:for-index="idx" wx:for-item="scroll_item">
-          <view style="margin: 4px;font-size:large;">玩家{{idx+1}}:{{scroll_item.id}}</view>
+          <view style="margin: 4px;font-size:large;">{{scroll_item.id}}</view>
           <view style="margin: 4rpx;font-size: 35rpx;">点数:{{dices[idx].points}}</view>
           <view style="margin: 4rpx;font-size: 35rpx;">选定:{{lockdices[idx]}}</view>
           <view style="margin: 4rpx;font-size: 35rpx;">得分:{{players[idx].score}}</view>
@@ -44,12 +44,13 @@
     </view>
     <image src="/static/images/pvp_game/table.png" id="table"></image>
     <image src="/static/images/pvp_game/player2.png" id="player2" bindtap="playRabbit" animation="{{rabbitanimtion}}"></image>
-    <image src="/static/images/pvp_game/player1.png" id="player1" bindtap="enermyAnimationPlay" animation="{{enermyanimtion}}"></image>
+    <image src="/static/images/pvp_game/player1.png" id="player1" bindtap="enermyAnimationPlay"  animation="{{enermyanimtion}}"></image>
+    <image src="/static/images/tuoguan.png" id="tuoguan" bindtap="set_AI"></image>
     <view wx:if="{{isGameOver}}">
       <view class="win_box">
         <text>游戏结束</text>
         <text>胜者：{{winner.id}}</text>
-        <text>积分：{{winner.score}}</text>
+        <text>得分：{{winner.score}}</text>
         <text>筹码：{{winner.money}}</text>
       </view>
     </view>

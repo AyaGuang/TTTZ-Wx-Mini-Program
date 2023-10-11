@@ -7,7 +7,6 @@ const regex = /name:(.*?)!ava:(.*?)$/;
 var players = []
 var Master = 0
 var uid = 0
-
 Page({
   /**
    * 页面的初始数据
@@ -17,7 +16,7 @@ Page({
     players:[],//存储玩家信息
     dices:[],//存储骰子信息
     lockdices:[],//存储锁定的骰子
-    player_num:2,//玩家人数
+    player_num:3,//玩家人数
     current_player:0,//当前玩家
     turns:1,//游戏轮数
     total_rounds:3,//游戏局数
@@ -90,7 +89,7 @@ wx.goEasy.pubsub.hereNow({
     limit:10,
     onSuccess: function (response) {  //获取成功
         console.log(response.content)
-        if(response.content.amount == 1||response.content.amount == 0)
+        if(response.content.amount == 1)
         {
             Master = 1
         }
@@ -107,17 +106,17 @@ wx.goEasy.pubsub.publish({
    * 生命周期函数--监听页面加载
    */
   onLeave:function(){
-    // wx.goeasy.pubsub.unsubscribe({
-    //     channel: cur_channel,
-    // });
-    // goeasy.disconnect({
-    //     onSuccess: function(){
-    //         console.log("GoEasy disconnect successfully.")
-    //     },
-    //     onFailed: function(error){
-    //         console.log("Failed to disconnect GoEasy, code:"+error.code+ ",error:"+error.content);
-    //     }
-    // });
+    wx.goeasy.pubsub.unsubscribe({
+        channel: cur_channel,
+    });
+    goeasy.disconnect({
+        onSuccess: function(){
+            console.log("GoEasy disconnect successfully.")
+        },
+        onFailed: function(error){
+            console.log("Failed to disconnect GoEasy, code:"+error.code+ ",error:"+error.content);
+        }
+    });
   },
   onLoad: function (options) {
     let that = this;
@@ -157,8 +156,7 @@ wx.goEasy.pubsub.publish({
     for(var i=0;i<this.data.player_num;i++){
       if(i != uid-1)
       {
-        //   players[i].avatarUrl = "https://api.likepoems.com/img/pe/"
-        players[i].avatarUrl ="https://api.r10086.com/樱道随机图片api接口.php?图片系列=动漫综合"+ uid
+          players[i].avatarUrl = "https://api.likepoems.com/img/pe/"
       }
       dices.push({paths:["/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png","/static/images/pvp_game/dice0.png"],
       timers:[null,null,null,null,null],
@@ -624,17 +622,7 @@ wx.goEasy.pubsub.publish({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-    wx.goEasy.pubsub.unsubscribe({
-        channel: cur_channel,
-    });
-    wx.goEasy.disconnect({
-        onSuccess: function(){
-            console.log("GoEasy disconnect successfully.")
-        },
-        onFailed: function(error){
-            console.log("Failed to disconnect GoEasy, code:"+error.code+ ",error:"+error.content);
-        }
-    });
+
   },
 
   /**

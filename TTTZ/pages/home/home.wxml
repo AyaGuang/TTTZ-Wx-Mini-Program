@@ -1,8 +1,8 @@
 <view class="body">
     <view class="title">
-        <image class="front_word" src="/static/images/demo_title1.png"></image>
+        <image class="front_word" src="/static/images/tiantian.png"></image>
         <image class="front_img" src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/demo_front.png"></image>
-        <image class="front_word" src="/static/images/demo_title2.png"></image>
+        <image class="front_word" src="/static/images/touzi.png"></image>
     </view>
     <view class="pvp">
         <image src="/static/images/pvp_font.png" class="font_style"></image>

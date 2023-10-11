@@ -5,6 +5,7 @@
   width: 750rpx;
   height: 1700rpx;
   overflow: hidden;
+  font-weight: 1000;
 }
 
 .back{
@@ -149,6 +150,7 @@ font-family: CustomFont;
 #start_Button{
   width: 250rpx;
   height: 250rpx;
+  animation: button_transform 1s infinite linear;
 }
 #button_area{
   margin-left: 20rpx;
@@ -167,7 +169,7 @@ font-family: CustomFont;
   background-color: rgba(255, 222, 178, 1);
   font-size: 50rpx;
   text-align: center;
-  border: 6rpx solid rgba(0, 0, 0, 1);
+  border: 8rpx solid rgba(0, 0, 0, 1);
   color: rgba(255, 136, 136, 1);
   font-family: customfont;   
 }
@@ -213,6 +215,16 @@ font-family: CustomFont;
   left: 420rpx;
   z-index: 0;
 }
+
+.tuoguan{
+  position: relative;
+  width: 340rpx;
+  height: 320rpx;
+  top: -750rpx;
+  left:450rpx;
+  z-index: 0;
+}
+
 #card{
   position: relative;
   width: 260rpx;
@@ -251,4 +263,16 @@ text-align: center;
 margin-bottom: 50rpx;
 font-family: CustomFont;
 display: block;
+}
+
+@keyframes button_transform{
+  0%{
+    transform: scale(1,1);
+  }
+  50%{
+    transform: scale(1.05,1.05);
+  }
+  100%{
+    transform: scale(1,1);
+  }
 }

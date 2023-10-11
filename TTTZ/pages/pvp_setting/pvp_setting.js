@@ -10,14 +10,25 @@ Page({
   data: {
       players:2,
       money:1000,
-      rounds:3
+      rounds:1
   },
 
+
+  onClick:function(){
+      app.globalData.local_player_num = this.data.players
+      app.globalData.local_player_money = this.data.money
+      app.globalData.local_game_rounds = this.data.rounds
+      wx.redirectTo({
+        url: '/pages/pvp/pvp',
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    app.globalData.local_player_num=this.data.players;
+    app.globalData.local_player_money=this.data.money;
+    app.globalData.local_game_rounds=this.data.rounds;
   },
 
   /**
@@ -38,9 +49,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    app.globalData.local_player_num=this.data.players;
-    app.globalData.local_player_money=this.data.money;
-    app.globalData.local_game_rounds=this.data.rounds;
   },
 
   /**

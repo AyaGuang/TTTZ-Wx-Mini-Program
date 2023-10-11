@@ -7,24 +7,26 @@
         <image src="/static/images/pvp_set/front_font.png" class="front"></image>
         <view class="line">
             <image src="/static/images/pvp_set/nums.png" class="line_img"></image>
-            <progress percent="{{players*10}}" class="scroll" />
+            <slider class="scroll" bindchanging="sliderChanging" model:value="{{players}}"  min='2' max='10'
+            activeColor="pink" block-size='18' ></slider>
             <input type="number" class="input" model:value="{{players}}" />
             <image src="/static/images/pvp_set/num_icon.png" class="icon"></image>
             
         </view>
         <view class="line">
             <image src="/static/images/pvp_set/coins.png" class="line_img"></image>
-            <progress percent="{{money/100}}" class="scroll" />
+            <slider class="scroll" bindchanging="sliderChanging" model:value="{{money}}" min='1000' step='500'max='10000' activeColor="gold" block-size='18' bindchange="setPlayerMoney"></slider>
             <input type="number" class="input" model:value="{{money}}" />
             <image src="/static/images/pvp_set/icons.png" class="icon"></image>
         </view>
         <view class="line">
             <image src="/static/images/pvp_set/total_rounds.png" class="line_img"></image>
-            <progress percent="{{rounds*10}}" class="scroll" />
+            <slider class="scroll" bindchanging="sliderChanging"  model:value="{{rounds}}" min='1' max='20'
+            activeColor="lightblue" block-size='18' bindchange="setRounds"></slider>
             <input type="number" class="input" model:value="{{rounds}}" />
         </view>
     </view>
     <view class="bottom">
-        <navigator class="navi" url="/pages/pvp/pvp" open-type="redirect">开始游戏</navigator>
+        <button class="navi"  bind:tap="onClick">开始游戏</button>
     </view>
 </view>

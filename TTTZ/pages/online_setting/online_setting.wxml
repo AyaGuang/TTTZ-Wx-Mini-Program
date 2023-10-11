@@ -18,7 +18,8 @@
 
         <view class="line">
             <image src="/static/images/pvp_set/nums.png" class="line_img"></image>
-            <progress percent="{{players*10}}" class="scroll" />
+            <slider class="scroll" bindchanging="sliderChanging" model:value="{{players}}"  min='2' max='6'
+            activeColor="pink" block-size='18' ></slider>
             <input type="number" class="input" model:value="{{players}}" />
             <image src="/static/images/pvp_set/num_icon.png" class="icon"></image>
             
@@ -26,7 +27,8 @@
         
         <view class="line">
             <image src="/static/images/pvp_set/total_rounds.png" class="line_img"></image>
-            <progress percent="{{rounds*10}}" class="scroll" />
+            <slider class="scroll" bindchanging="sliderChanging"  min='1' max='20'
+            activeColor="lightblue" block-size='18'  model:value="{{rounds}}"></slider>
             <input type="number" class="input" model:value="{{rounds}}" />
         </view>
     </view>
