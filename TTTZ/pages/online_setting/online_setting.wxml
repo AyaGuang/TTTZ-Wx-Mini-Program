@@ -1,0 +1,37 @@
+<view style="height: 70rpx;width: 100%;background: lightgray;"></view>
+<view class="body" >
+    <navigator class="back" url="/pages/home/home" open-type="redirect">
+      <image src='/static/images/back.png'></image>
+    </navigator>
+    <image src="/static/images/pvp_set/front_font.png" class="front"></image>
+    <view class="setting">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+  <image class="avatar" src="{{avatarUrl}}"></image>
+    </button> 
+    <mp-form >
+    <mp-cells >
+      <mp-cell title="昵称" class="cell">
+        <input type="nickname" model:value="{{nickName}}" class="weui-input" placeholder="请输入昵称"/>
+      </mp-cell>
+    </mp-cells>
+  </mp-form>
+
+        <view class="line">
+            <image src="/static/images/pvp_set/nums.png" class="line_img"></image>
+            <progress percent="{{players*10}}" class="scroll" />
+            <input type="number" class="input" model:value="{{players}}" />
+            <image src="/static/images/pvp_set/num_icon.png" class="icon"></image>
+            
+        </view>
+        
+        <view class="line">
+            <image src="/static/images/pvp_set/total_rounds.png" class="line_img"></image>
+            <progress percent="{{rounds*10}}" class="scroll" />
+            <input type="number" class="input" model:value="{{rounds}}" />
+        </view>
+    </view>
+    <view class="bottom">
+        <button class="navi" url="/pages/online/online?id=1" bind:tap="creatRoom">创建对局</button>
+        <button class="navi" url="/pages/online/online?id=0" bind:tap="enterRoom">匹配对局</button>
+    </view>
+</view>

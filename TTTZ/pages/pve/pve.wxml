@@ -1,0 +1,56 @@
+<view class="body">
+  <navigator class="back" url="/pages/pve_setting/pve_setting" open-type="redirect">
+      <image src='/static/images/back.png'></image>
+    </navigator>
+    <view class='round'>Round{{current_round}}</view>
+    <view class="turns">第{{turns}}轮</view>
+    <image src="/static/images/pvp_game/peo_icon.png" class="peo_icon"></image>
+    <view class="short_player">当前玩家：</view>
+    <view class="dice_box">
+        <view wx:for="{{dices[current_player].paths}}" wx:for-index="index" wx:for-item="item" class="dice_item">
+            <image src="{{dices[current_player].paths[index]}}" class="dice" id="dice{{index+1}}" wx:key="{{index}}" bindtap="changeState" animation="{{animationData}}" data-params="{{index}}"></image>
+            <view wx:if="{{dices[current_player].locks[index]==true}}" class="lock">
+                <image src="/static/images/pvp_game/lock.png" style="position: absolute;bottom: 10%;"></image>
+            </view>
+        </view>
+    </view>
+    <scroll-view class="my_scroll" scroll-x>
+        <view wx:for="{{players}}" class="scroll_item" wx:for-index="idx" wx:for-item="scroll_item">
+          <view style="margin: 4px;font-size:large;">{{players_name[idx]}}</view>
+          <view style="margin: 4rpx;font-size: 35rpx;">点数:{{dices[idx].points}}</view>
+          <view style="margin: 4rpx;font-size: 35rpx;">选定:{{lockdices[idx]}}</view>
+          <view style="margin: 4rpx;font-size: 35rpx;">得分:{{players[idx].score}}</view>
+          <view style="margin: 4rpx;font-size: 35rpx;">筹码：{{players[idx].money}}</view>
+        </view>
+    </scroll-view>
+    <view class="play_area">
+        <view id="score_menu">
+            <view class="output">积分：{{point_sum}}</view>
+            <view class="output">总倍数：{{total_mul}}</view>
+            <view class="output">牌型：{{point_type}}</view>
+        </view>
+        <image src="/static/images/pvp_game/startButton.png" id="start_Button" bindtap="clickButton"></image>
+    </view>
+    <view style="display: flex; flex-direction: row;">
+        <view id="button_area">
+            <view class="btn" bindtap="addMul">加倍</view>
+            <view class="btn" bindtap="commit">确定</view>
+        </view>
+        <view id="mul_menu">
+            <view wx:for="{{muls_array}}" wx:for-index="idx">
+              <view wx:if="{{is_mul}}" class="mul" bindtap="addMul_i" data-params="{{idx}}">{{muls_array[idx]}}</view>
+            </view>
+        </view>
+    </view>
+    <image src="/static/images/pvp_game/table.png" id="table"></image>
+    <image src="/static/images/pvp_game/player2.png" id="player2" bindtap="playRabbit" animation="{{rabbitanimtion}}"></image>
+    <image src="/static/images/pve_game/robbot.png" id="player1" bindtap="enermyAnimationPlay" animation="{{enermyanimtion}}"></image>
+    <view wx:if="{{isGameOver}}">
+      <view class="win_box">
+        <text>游戏结束</text>
+        <text>胜者：{{winner.id}}</text>
+        <text>积分：{{winner.score}}</text>
+        <text>筹码：{{winner.money}}</text>
+      </view>
+    </view>
+</view>

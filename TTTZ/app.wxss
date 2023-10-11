@@ -1,0 +1,14 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+@font-face {
+    font-family: 'CustomFont';
+    src: url('https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/font/江城圆体 700W.ttf') format('truetype');
+  }

@@ -1,0 +1,212 @@
+
+.body {
+    width: 100%;
+    height: 1650rpx;
+    padding-top: 20rpx;
+    background-image: url(https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/back.png);
+    background-size: contain;
+}
+
+.title {
+    width: 100%;
+    height: 180rpx;
+    margin-top: 120rpx;
+}
+
+.rule{
+  position: absolute;
+  left: 60rpx;
+  top:80rpx;
+  width: 150rpx;
+  height: 80rpx;
+}
+
+.rule image{
+  height: 100%;
+  width: 100%;
+}
+
+.rule_navi{
+  width: 100%;
+  height: 100%;
+}
+
+.front_img {
+    display: inline-block;
+    height: 176rpx;
+    width: 176rpx;
+    animation: dicefall 1s infinite linear;
+}
+
+.front_word {
+    height: 110rpx;
+    width: 280rpx;
+    padding-bottom: 30rpx;
+}
+
+.titleContent {
+    width: 100rpx;
+    height: 100rpx;
+    display: inline-block;
+    margin-left: 50rpx;
+    position: relative;
+    top: -50rpx;
+}
+
+.pvp {
+    margin: 50rpx;
+    height: 360rpx;
+    background-image: url(https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/人人对战@1x.png);
+    background-size: cover;
+    border-radius: 60rpx 0rpx 60rpx 0rpx;
+    box-shadow: 0rpx 4rpx 10rpx 0rpx rgba(0, 0, 0, 0.2);
+}
+
+.navi {
+    position: relative;
+    left: 20rpx;
+    top: -300rpx;
+    height: 320rpx;
+    width: 580rpx;
+    color: transparent;
+    border-radius: 60rpx 0rpx 60rpx 0rpx;
+    border: 9px solid rgba(0, 0, 0, 1);
+}
+#pvp_img{
+    position: relative;
+    width: 250rpx;
+    height: 300rpx;  
+    top: 90rpx;
+    left: 150rpx;
+    z-index: 0;
+}
+.font_style{
+    position: relative;
+    top: -180rpx;
+    left: 50rpx;
+    width: 266rpx;
+    height: 100rpx;
+}
+
+.gamemode {
+    width: 300rpx;
+    height: 520rpx;
+    display: inline-block;
+    margin:50rpx 30rpx;
+    background-color: rgba(209, 209, 209, 0.8);
+    line-height: 20rpx;
+    border-radius: 60rpx 0rpx 0rpx 60rpx;
+    font-size: 14px;
+    text-align: center;
+    font-family: Roboto;
+    border: 15rpx solid rgba(0, 0, 0, 0.8);
+}
+
+#mode {
+    margin-left: 0;
+    border-radius: 0px 30px 30px 0px;
+    background-color: rgba(255, 140, 140, 0.8);
+}
+.mode_navi{
+    position: relative;
+    z-index: 50rpx;
+    width: 100%;
+    height: 100%;
+    top:-600rpx;
+}
+.mode_font
+{
+    position: relative;
+    width: 266rpx;
+    height: 100rpx;
+}
+.mode_dice{
+    width: 250rpx;
+    height: 250rpx;
+    z-index: -20rpx;
+    position: relative;
+    /* top: -500rpx; */
+}
+.mode_img{
+    width: 250rpx;
+    height: 250rpx;
+    z-index: -20rpx;
+    position: relative;
+    top: -50rpx;
+    right: 60rpx;
+}
+.button{
+    width: 250rpx;
+    height: 100rpx;
+    margin: auto;
+    position: relative;
+    /* top: -20rpx; */
+    border-radius: 40rpx;
+    text-align: center;
+    line-height: 100rpx;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    background-size: 500%;
+    animation: glow 8s linear infinite;
+    font-family: customfont;
+    font-size: 50rpx;
+    color: rgba(0, 0, 0, 0.75);
+}
+.button_tap{
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    animation: buttonshake 0.5s infinite linear;
+}
+@keyframes dicefall{
+    0%{
+      transform: translate(0,0%) 
+    }
+    40%{
+      transform: translate(0,-50%) 
+    }
+    50%{
+        transform: translate(0,0%) 
+    }
+    60%{
+      transform: translate(0,-20%) 
+    }
+    70%{
+      transform: translate(0,0%) 
+    }
+    80%{
+      transform: translate(0,-10%) 
+    }
+    85%{
+        transform: translate(0,0%) 
+    }
+}
+@keyframes glow {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 400%;
+    }
+}
+@keyframes buttonshake{
+    0%{
+      transform: scale(1,1);
+    }
+    50%{
+      transform: scale(1.3,0.6);
+    }
+    60%{
+      transform: scale(0.8,1.3);
+    }
+    70%{
+      transform: scale(1.2,0.8);
+    }
+    80%{
+      transform: scale(1.1,0.9);
+    }
+    90%{
+      transform: scale(0.9,1.1);
+    }
+    100%{
+        transform: scale(1,1);
+    }
+  }

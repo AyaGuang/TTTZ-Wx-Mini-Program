@@ -1,0 +1,23 @@
+{
+  "pages":[
+    "pages/home/home",
+    "pages/rule/rule",
+    "pages/pvp_setting/pvp_setting",
+    "pages/pve_setting/pve_setting",
+    "pages/online_setting/online_setting",
+    "pages/pvp/pvp",
+    "pages/pve/pve",
+    "pages/online/online"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#00B26A",
+    "navigationBarTitleText": "AyaHikari",
+    "navigationBarTextStyle":"white"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  }
+}

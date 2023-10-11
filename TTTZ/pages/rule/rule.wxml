@@ -1,0 +1,12 @@
+<view style="height: 70rpx;width: 100%;background: lightgray;"></view>
+<view class="body">
+    <navigator class="back" url="/pages/home/home" open-type="redirect">
+      <image src='/static/images/back.png'></image>
+    </navigator>
+    <view class="setting">
+        <image src="/static/images/rule/game_rule.png" class="front"></image>
+    </view>
+    <image src='/static/images/rule/dice_type.png' class="dice_type"></image>
+    <image src='/static/images/rule/dice_rule.png' class="dice_rule"></image>
+    <view class="bottom">    </view>
+</view>

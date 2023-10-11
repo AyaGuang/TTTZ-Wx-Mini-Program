@@ -1,0 +1,57 @@
+.body{
+  position: relative;
+  top: 100rpx;
+  width: 750rpx;
+  height: 1400rpx;
+  
+}
+.back{
+position: absolute;
+left: 20rpx;
+top: -100rpx;
+width: 80rpx;
+height: 80rpx;
+z-index: 1;
+}
+
+.back image{
+width: 100%;
+height: 100%;
+}
+
+.setting{
+  position: absolute;
+  top: -150rpx;
+  left: 40rpx;
+  width: 550rpx;
+  height: 500rpx;
+}
+.front{
+  margin: 50rpx 175rpx;
+  width: 300rpx;
+  height: 80rpx;
+}
+
+.dice_type{
+  position: absolute;
+  left: 30rpx;
+  width: 700rpx;
+}
+
+.dice_rule{
+  position: absolute;
+  left: 30rpx;
+  bottom: 200rpx;
+  width: 700rpx;
+  height: 650rpx;
+  z-index: 1;
+}
+
+.bottom{
+  position: absolute;
+  bottom: -230rpx;
+  background-image: url(https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvpSetting/backh.png);
+  width: 750rpx;
+  height: 750rpx;
+  background-size: contain;
+}

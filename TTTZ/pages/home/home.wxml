@@ -1,0 +1,25 @@
+<view class="body">
+    <view class="title">
+        <image class="front_word" src="/static/images/demo_title1.png"></image>
+        <image class="front_img" src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/demo_front.png"></image>
+        <image class="front_word" src="/static/images/demo_title2.png"></image>
+    </view>
+    <view class="pvp">
+        <image src="/static/images/pvp_font.png" class="font_style"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvp_img.png" id="pvp_img"></image>
+        <navigator url="/pages/pvp_setting/pvp_setting" class="navi" open-type="redirect"></navigator>
+    </view>
+    <view class="gamemode">
+        <image src="/static/images/pve_font.png" class="mode_font"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pve_dice.png" class="mode_dice"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pve_img.png" class="mode_img"></image>
+        <navigator url="/pages/pve_setting/pve_setting" class="mode_navi" open-type="redirect"></navigator>
+    </view>
+    <view class="gamemode" id="mode">
+        <image src="/static/images/online_font.png" class="mode_font"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/mode_dice.png" class="mode_dice"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/mode_img.png" class="mode_img" style="width: 350rpx;left: -15%;"></image>
+        <navigator url="/pages/online_setting/online_setting" class="mode_navi" open-type="redirect"></navigator>
+    </view>
+    <navigator class="button" hover-class="button_tap" url="/pages/rule/rule" open-type="redirect">规则</navigator>
+</view>
