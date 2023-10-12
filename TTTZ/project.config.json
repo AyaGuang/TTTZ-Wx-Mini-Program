@@ -50,7 +50,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.1.1",
-  "appid": "wxf39c825a0a3824f7",
+  "appid": "wx4f4d06dc03ef700a",
   "projectname": "%E5%A4%A9%E5%A4%A9%E9%AA%B0%E5%AD%90",
   "condition": {
     "search": {
@@ -75,5 +75,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "simulatorPluginLibVersion": {}
 }
