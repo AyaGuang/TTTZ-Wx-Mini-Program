@@ -65,6 +65,43 @@ Page({
             presence: {
                 enable: true
             },
+            onSuccess:function() {
+                wx.goEasy.pubsub.hereNow({
+                    channel: cur_channel,
+                    limit: 10,
+                    onSuccess: function (response) { //获取成功
+                        console.log(response.content)
+                        if (response.content.amount > app.globalData.local_player_num) //当前房间满人，提示换房间
+                        {
+                            wx.showModal({
+                                title: '当前房间已满员',
+                                content: '受服务器容量限制，同一对局只开一个房间。请点击确定回到设置界面，您可以重新调整配置，匹配与自己配置相同的人。',
+                                showCancel: false,
+                                complete: (res) => {
+                                    if (res.confirm) {
+                                        wx.redirectTo({ //回到配置页面
+                                            url: '/pages/online_setting/online_setting',
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                        if (response.content.amount == 1) //进入无人房间，成为房主
+                        {
+                            Master = 1
+                        }
+                        console.log(Master)
+                        uid = response.content.amount
+                        that.setData({
+                          uid:uid,
+                        });
+                        wx.goEasy.pubsub.publish({ //向房间内其他人广播自己的身份信息
+                            channel: cur_channel,
+                            message: "OnLine" + "!name:" + info.name + "!ava:" + info.avatarUrl,
+                        });
+                    }
+                })  
+            },
             onMessage: function (message) {
                 if (message.content.startsWith("OnLine")) {
                     cur_player += 1
@@ -80,6 +117,7 @@ Page({
                         canthrow: true,
                         avatarUrl: ava
                     })
+                    console.log("cur_player:"+cur_player)
                     //房主在人数已满时，向其他玩家广播配置信息并宣布启动游戏
                     if (Master == 1 && cur_player == app.globalData.local_player_num) {
                         let str = JSON.stringify(players)
@@ -157,40 +195,7 @@ Page({
                 }
             }
         });
-        wx.goEasy.pubsub.hereNow({
-            channel: cur_channel,
-            limit: 10,
-            onSuccess: function (response) { //获取成功
-                console.log(response.content)
-                if (response.content.amount > app.globalData.local_player_num) //当前房间满人，提示换房间
-                {
-                    wx.showModal({
-                        title: '当前房间已满员',
-                        content: '受服务器容量限制，同一对局只开一个房间。请点击确定回到设置界面，您可以重新调整配置，匹配与自己配置相同的人。',
-                        showCancel: false,
-                        complete: (res) => {
-                            if (res.confirm) {
-                                wx.redirectTo({ //回到配置页面
-                                    url: '/pages/online_setting/online_setting',
-                                })
-                            }
-                        }
-                    })
-                }
-                if (response.content.amount == 1) //进入无人房间，成为房主
-                {
-                    Master = 1
-                }
-                uid = response.content.amount
-                that.setData({
-                  uid:uid,
-                });
-                wx.goEasy.pubsub.publish({ //向房间内其他人广播自己的身份信息
-                    channel: cur_channel,
-                    message: "OnLine" + "!name:" + info.name + "!ava:" + info.avatarUrl,
-                });
-            }
-        })
+        
 
     },
     /**
@@ -767,16 +772,23 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
+         cur_player = 0
+         players = []
+         Master = 0
+         uid = 0
+         send = 0
         wx.goEasy.pubsub.unsubscribe({
             channel: cur_channel,
-        });
-        wx.goEasy.disconnect({
             onSuccess: function () {
-                console.log("GoEasy disconnect successfully.")
+                wx.goEasy.disconnect({
+                    onSuccess: function () {
+                        console.log("GoEasy disconnect successfully.")
+                    },
+                    onFailed: function (error) {
+                        console.log("Failed to disconnect GoEasy, code:" + error.code + ",error:" + error.content);
+                    }
+                });
             },
-            onFailed: function (error) {
-                console.log("Failed to disconnect GoEasy, code:" + error.code + ",error:" + error.content);
-            }
         });
     },
 
