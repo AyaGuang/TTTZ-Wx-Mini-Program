@@ -29,7 +29,7 @@
             <view class="output">总倍数：{{total_mul}}</view>
             <view class="output">牌型：{{point_type}}</view>
         </view>
-        <image src="/static/images/pvp_game/startButton.png" id="start_Button" bindtap="clickButton"></image>
+        <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvp_game/startButton.png" id="start_Button" bindtap="clickButton"></image>
     </view>
     <view style="display: flex; flex-direction: row;">
         <view id="button_area">
@@ -42,9 +42,9 @@
             </view>
         </view>
     </view>
-    <image src="/static/images/pvp_game/table.png" id="table"></image>
-    <image src="/static/images/pvp_game/player2.png" id="player2" bindtap="playRabbit" animation="{{rabbitanimtion}}"></image>
-    <image src="/static/images/pvp_game/player1.png" id="player1" bindtap="enermyAnimationPlay"  animation="{{enermyanimtion}}"></image>
+    <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvp_game/table.png" id="table"></image>
+    <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvp_game/player2.png" id="player2" bindtap="playRabbit" animation="{{rabbitanimtion}}"></image>
+    <image src="https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/pvp_game/player1.png" id="player1" bindtap="enermyAnimationPlay"  animation="{{enermyanimtion}}"></image>
     <image src="/static/images/tuoguan.png" id="tuoguan" bindtap="set_AI"></image>
     <view wx:if="{{isGameOver}}">
       <view class="win_box">

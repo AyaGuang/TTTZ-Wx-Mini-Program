@@ -6,7 +6,7 @@
     <view class="setting">
         <image src="/static/images/rule/game_rule.png" class="front"></image>
     </view>
-    <image src='/static/images/rule/dice_type.png' class="dice_type"></image>
-    <image src='/static/images/rule/dice_rule.png' class="dice_rule"></image>
+    <image src='https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/rules/dice_type.png' class="dice_type"></image>
+    <image src='https://mp-2b1c41a4-fdd7-465e-af62-0e39538234ac.cdn.bspapp.com/lwg_img/rules/dice_rule.png' class="dice_rule"></image>
     <view class="bottom">    </view>
 </view>
