@@ -223,7 +223,7 @@ Page({
             total_rounds: app.globalData.local_game_rounds,
             avatarUrl: info.avatarUrl
         })
-        cur_channel = "num" + this.data.player_num + "r" + this.data.total_rounds
+        cur_channel = "num" + this.data.player_num + "r" + this.data.total_rounds + "money" + app.globalData.local_player_money
 
     },
 

@@ -89,7 +89,7 @@
     text-align: center;
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
     position: relative;
-    top: 250rpx;
+    top: 350rpx;
     /* left: 200rpx; */
     margin-bottom: 20rpx;
     font-size: 50rpx;
