@@ -34,8 +34,10 @@
     </view>
     <view style="display: flex; flex-direction: row;">
         <view id="button_area">
+          <view wx:if="{{current_player==uid-1}}">
             <view class="btn" bindtap="addMul">加倍</view>
             <view class="btn" bindtap="commit">确定</view>
+          </view>
         </view>
         <view id="mul_menu">
             <view wx:for="{{muls_array}}" wx:for-index="idx">

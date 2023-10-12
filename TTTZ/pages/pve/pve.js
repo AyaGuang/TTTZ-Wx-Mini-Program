@@ -317,9 +317,18 @@ Page({
     if((!this.data.players[this.data.current_player].canthrow//玩家不能投掷时可以确定
       ||this.isAllLock(this.data.dices[this.data.current_player].locks))
       &&!this.data.isGameOver){//骰子都被锁时可以确定
+      var dices=this.data.dices;
+      var lockdices=this.data.lockdices;
+      var turns=this.data.turns;
       var current_player = this.data.current_player + 1;
+      if(turns==3){
+        dices[this.data.current_player].locks=[true,true,true,true,true];
+        lockdices[this.data.current_player]=dices[this.data.current_player].points;
+      }
       //更新当前玩家信息
       this.setData({
+        dices:dices,
+        lockdices:lockdices,
         current_player: current_player
       });
       this.enermyAnimationPlay();
@@ -490,6 +499,10 @@ Page({
     var dices=this.data.dices;//创建dices副本
     var lockdices=this.data.lockdices;
     var total_mul=this.data.total_mul;
+    if(turns==3){
+      dices[this.data.current_player].locks=[true,true,true,true,true];
+      lockdices[this.data.current_player]=dices[this.data.current_player].points;
+    }
     if (current_player == this.data.player_num) {//如果下标超过人数，说明可以进行下一轮
       current_player = current_player % this.data.player_num;
       turns++;
@@ -524,9 +537,15 @@ Page({
       total_mul:total_mul,can_mul:true,
       current_round:currrent_round,current_player: current_player
     });
-    this.playRabbit();
+    if(!this.data.isGameOver) this.changePlayer();
+    if(this.data.players[this.data.current_player].is_AI){
+      setTimeout(()=>{
+      this.setData({
+        canAIthrow:true
+      });
+      this.AIController();},1000)//1s后开始转为人机控制
+    }
   },
-
   //计算最优锁定方法
   calculateBestLocks:function(points,locks) {
     let locksPossible=[];//存储所有可能的骰子锁定数组

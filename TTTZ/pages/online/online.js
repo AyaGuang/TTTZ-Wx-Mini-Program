@@ -14,6 +14,7 @@ Page({
      */
 
     data: {
+        uid:null,
         players: [], //存储玩家信息
         dices: [], //存储骰子信息
         lockdices: [], //存储锁定的骰子
@@ -87,6 +88,9 @@ Page({
                             message: "Start" + str, //替换为您想要发送的消息内容
                         });
                         uid = 1
+                        that.setData({
+                          uid:uid,
+                        });
                         that.initGame();
                     }
                 } else if (Master == 0 && message.content.startsWith("Start")) //其他人收到启动消息后，解析玩家列表，启动游戏
@@ -132,10 +136,15 @@ Page({
                     let match = res.match(/^\d+/);
                     let mul = parseInt(match[0]);
                     let str = res.substring(match[0].length)
-                    let dice = JSON.parse(str)
+                    let parts=str.split('lockdices');
+                    let dice_str=parts[0];
+                    let lockdices_str=parts[1];
+                    let dice = JSON.parse(dice_str);
+                    let lockdices=JSON.parse(lockdices_str);
                     that.setData({
                         total_mul:mul,
-                        dices:dice
+                        dices:dice,
+                        lockdices:lockdices
                     })
                     console.log("cur_p:"+that.data.current_player);
                     console.log("uid:"+uid);
@@ -173,6 +182,9 @@ Page({
                     Master = 1
                 }
                 uid = response.content.amount
+                that.setData({
+                  uid:uid,
+                });
                 wx.goEasy.pubsub.publish({ //向房间内其他人广播自己的身份信息
                     channel: cur_channel,
                     message: "OnLine" + "!name:" + info.name + "!ava:" + info.avatarUrl,
@@ -333,7 +345,7 @@ Page({
 
     //切换骰子的状态，被锁或没被锁，用于绑定在每个骰子图片上，点击一次就可以切换一次状态
     changeState: function (event) {
-        if (!this.data.players[this.data.current_player].canthrow) {
+        if (!this.data.players[this.data.current_player].canthrow&&this.data.current_player==uid-1) {
             const i = event.currentTarget.dataset.params; //获取这是第几个骰子的数据
             var dices = this.data.dices;
             var lockdices = this.data.lockdices;
@@ -495,7 +507,7 @@ Page({
     clickButton: function () {
         if (this.data.players[this.data.current_player].canthrow &&
             !this.isAllLock(this.data.dices[this.data.current_player].locks) &&
-            !this.data.isGameOver) { //只有骰子能被投掷过才能开始投掷
+            !this.data.isGameOver&&this.data.current_player==uid-1) { //只有骰子能被投掷过才能开始投掷
                 let str = JSON.stringify(this.data.dices)
                 wx.goEasy.pubsub.publish({
                 channel: cur_channel,
@@ -522,10 +534,11 @@ Page({
             !this.data.isGameOver) {
             if(this.data.current_player == uid-1)
             {
-                let dice = JSON.stringify(this.data.dices)
+                let dice_str = JSON.stringify(this.data.dices)
+                let lockdice_str=JSON.stringify(this.data.lockdices)
                 wx.goEasy.pubsub.publish({ //向房间内其他人广播自己的身份信息
                     channel: cur_channel,
-                    message: "Commit:"+ this.data.total_mul + dice,
+                    message: "Commit:"+ this.data.total_mul + dice_str +"lockdices"+lockdice_str,
                 });
             }
             var point_type = '';
@@ -586,7 +599,7 @@ Page({
     },
 
     addMul: function () {
-        if (this.data.can_mul && !this.data.isGameOver) {
+        if (this.data.can_mul && !this.data.isGameOver&&this.data.current_player==uid-1) {
             this.setData({
                 is_mul: !this.data.is_mul
             });

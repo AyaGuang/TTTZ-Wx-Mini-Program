@@ -33,7 +33,7 @@
         </view>
     </view>
     <view class="bottom">
-        <button class="navi" url="/pages/online/online?id=1" bind:tap="creatRoom">创建对局</button>
-        <button class="navi" url="/pages/online/online?id=0" bind:tap="enterRoom">匹配对局</button>
+        <button class="navi" url="/pages/online/online?id=1" bind:tap="creatRoom">匹配对局</button>
+        <!-- <button class="navi" url="/pages/online/online?id=0" bind:tap="enterRoom">匹配对局</button> -->
     </view>
 </view>
